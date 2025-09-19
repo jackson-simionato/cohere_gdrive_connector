@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: gdrive-connector
+    env: python
+    buildCommand: |
+      pip install poetry
+      poetry config virtualenvs.create false
+      poetry install --no-dev
+    startCommand: gunicorn --bind 0.0.0.0:$PORT provider:create_app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.0
+      - key: GDRIVE_SERVICE_ACCOUNT_INFO
+        sync: false  # This will be set manually in Render dashboard
+      - key: GDRIVE_CONNECTOR_API_KEY
+        sync: false  # This will be set manually in Render dashboard
+      - key: GDRIVE_SEARCH_LIMIT
+        value: 10
+      # Uncomment and set if you want to search a specific folder
+      # - key: GDRIVE_FOLDER_ID
+      #   value: your-folder-id-here

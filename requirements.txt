@@ -1,0 +1,18 @@
+# Google Drive Connector Requirements
+# This file is generated for Render deployment compatibility
+
+# Core dependencies
+flask==2.2.5
+requests>=2.31.0
+connexion[swagger-ui]==2.14.2
+python-dotenv>=1.0.0
+gunicorn>=22.0.0
+
+# Google API dependencies
+google-api-python-client>=2.100.0
+google-auth-httplib2>=0.1.1
+google-auth-oauthlib>=1.1.0
+
+# Additional dependencies
+aiohttp>=3.9.4
+nltk>=3.8.1
