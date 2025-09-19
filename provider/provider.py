@@ -83,12 +83,25 @@ def extract_links(files) -> [str, str]:
 
 
 def split_and_remove_stopwords(text: str):
-    # Tokenize the input text
-    words = word_tokenize(text)
-    stop_words = set(stopwords.words("english"))
-    filtered_words = [word for word in words if word.lower() not in stop_words]
-
-    return filtered_words
+    try:
+        # Tokenize the input text
+        words = word_tokenize(text)
+        stop_words = set(stopwords.words("english"))
+        filtered_words = [word for word in words if word.lower() not in stop_words]
+        return filtered_words
+    except LookupError as e:
+        # If NLTK data is missing, download it and retry
+        logger.warning(f"NLTK data missing, downloading: {e}")
+        import nltk
+        nltk.download('stopwords', quiet=True)
+        nltk.download('punkt', quiet=True)
+        nltk.download('punkt_tab', quiet=True)
+        
+        # Retry tokenization
+        words = word_tokenize(text)
+        stop_words = set(stopwords.words("english"))
+        filtered_words = [word for word in words if word.lower() not in stop_words]
+        return filtered_words
 
 
 def request_credentials(access_token=None):

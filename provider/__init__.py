@@ -10,6 +10,7 @@ load_dotenv()
 # download nltk data
 nltk.download("stopwords")
 nltk.download("punkt")
+nltk.download("punkt_tab")
 
 API_VERSION = "api.yaml"
 
