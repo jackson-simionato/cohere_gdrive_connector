@@ -1,0 +1,72 @@
+openapi: 3.0.0
+info:
+  title: Provider API
+  version: 1.0.0
+  description: A simple provider API
+servers:
+  - url: http://localhost:5000
+    description: Development server
+paths:
+  /health:
+    get:
+      summary: Health check endpoint
+      operationId: health_check
+      responses:
+        '200':
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "healthy"
+  /search:
+    post:
+      summary: Search endpoint
+      operationId: search
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  description: Search query
+              required:
+                - query
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      type: object
+        '401':
+          description: Unauthorized
+        '502':
+          description: Bad Gateway
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: http
+      scheme: bearer
+      x-bearerInfoFunc: provider.app.apikey_auth
+  schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: integer

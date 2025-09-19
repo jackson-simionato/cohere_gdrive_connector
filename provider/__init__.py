@@ -23,7 +23,18 @@ class UpstreamProviderError(Exception):
 
 
 def create_app():
-    app = connexion.FlaskApp(__name__, specification_dir="../../.openapi")
+    # Use absolute path to find the API spec
+    import os
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    parent_dir = os.path.dirname(current_dir)
+    api_spec_path = os.path.join(parent_dir, "api.yaml")
+    
+    # If api.yaml exists in parent directory, use it; otherwise use relative path
+    if os.path.exists(api_spec_path):
+        app = connexion.FlaskApp(__name__, specification_dir=parent_dir)
+    else:
+        app = connexion.FlaskApp(__name__, specification_dir="../../.openapi")
+    
     app.add_api(
         API_VERSION, resolver=connexion.resolver.RelativeResolver("provider.app")
     )
