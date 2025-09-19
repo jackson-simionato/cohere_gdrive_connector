@@ -6,6 +6,7 @@ services:
       pip install poetry
       poetry config virtualenvs.create false
       poetry install --no-dev
+      python -c "import nltk; nltk.download('stopwords'); nltk.download('punkt'); nltk.download('punkt_tab')"
     startCommand: python -c "from provider import create_app; app = create_app(); app.run(host='0.0.0.0', port=int('$PORT'), debug=False)"
     envVars:
       - key: PYTHON_VERSION
