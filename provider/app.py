@@ -36,3 +36,8 @@ def apikey_auth(token):
         raise Unauthorized()
     # successfully authenticated
     return {}
+
+
+def health_check():
+    """Health check endpoint for monitoring."""
+    return {"status": "healthy", "service": "gdrive-connector"}, 200

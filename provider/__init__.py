@@ -44,4 +44,8 @@ def create_app():
     flask_app.config.from_prefixed_env(config_prefix)
     flask_app.config["APP_ID"] = config_prefix
 
+    # Add health check endpoint
+    from .app import health_check
+    flask_app.add_url_rule('/health', 'health_check', health_check, methods=['GET'])
+
     return flask_app
