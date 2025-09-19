@@ -23,7 +23,7 @@ This guide will help you deploy your Google Drive connector to Render.
    - **Name**: `gdrive-connector` (or your preferred name)
    - **Environment**: `Python 3`
    - **Build Command**: `pip install -r requirements.txt`
-   - **Start Command**: `gunicorn --bind 0.0.0.0:$PORT provider:create_app`
+   - **Start Command**: `gunicorn --bind 0.0.0.0:$PORT wsgi:app`
 
 4. **Set Environment Variables**
    In the Render dashboard, go to "Environment" and add:
