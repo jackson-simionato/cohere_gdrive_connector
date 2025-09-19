@@ -44,6 +44,14 @@ def create_app():
     config_prefix = os.path.split(os.getcwd())[1].upper()
     flask_app.config.from_prefixed_env(config_prefix)
     flask_app.config["APP_ID"] = config_prefix
+    
+    # Debug: Log environment variable status
+    logger = logging.getLogger(__name__)
+    service_account_info = flask_app.config.get("SERVICE_ACCOUNT_INFO")
+    if service_account_info:
+        logger.info(f"Service account info loaded: {type(service_account_info)} - {str(service_account_info)[:50]}...")
+    else:
+        logger.warning("No SERVICE_ACCOUNT_INFO found in environment")
 
     # Add health check endpoint
     from .app import health_check

@@ -107,6 +107,16 @@ def split_and_remove_stopwords(text: str):
 def request_credentials(access_token=None):
     if service_account_info := app.config.get("SERVICE_ACCOUNT_INFO"):
         logger.debug("Using service account credentials")
+        
+        # Parse JSON string if it's a string
+        if isinstance(service_account_info, str):
+            import json
+            try:
+                service_account_info = json.loads(service_account_info)
+            except json.JSONDecodeError as e:
+                logger.error(f"Failed to parse service account JSON: {e}")
+                raise AssertionError("Invalid service account JSON format")
+        
         credentials = service_account.Credentials.from_service_account_info(
             service_account_info, scopes=SCOPES
         )
